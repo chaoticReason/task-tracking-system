@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.RegisterController">
+   <top>
+        <AnchorPane prefHeight="70.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="upImage" fitHeight="70.0" fitWidth="500.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="closeButton" layoutX="433.0" layoutY="1.0" mnemonicParsing="false" onAction="#onClose" text="Закрыть" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </children></AnchorPane>
+   </top>
+   <center>
+        <AnchorPane maxHeight="-Infinity" maxWidth="310.0" prefHeight="350.0" prefWidth="310.0" BorderPane.alignment="TOP_CENTER">
+            <children>
+
+                <Label layoutX="3.0" layoutY="33.0" prefHeight="17.0" prefWidth="40.0" text="Почта" AnchorPane.leftAnchor="0.0" />
+                <TextField fx:id="loginField" layoutX="3.0" layoutY="55.0" prefHeight="30.0" prefWidth="300.0" promptText="email@box.any" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+                <Label layoutX="3.0" layoutY="98.0" text="Имя" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="98.0" />
+                <TextField fx:id="firstnameField" layoutX="3.0" layoutY="120.0" maxWidth="310.0" prefHeight="30.0" prefWidth="300.0" promptText="Зинаида" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0" />
+
+                <Label layoutX="3.0" layoutY="163.0" text="Фамилия" AnchorPane.leftAnchor="0.0" />
+                <TextField fx:id="lastnameField" layoutX="3.0" layoutY="185.0" prefHeight="30.0" prefWidth="300.0" promptText="Станиславская" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+                <Label layoutX="3.0" layoutY="228.0" text="Пароль" AnchorPane.leftAnchor="0.0" />
+                <PasswordField fx:id="passwordField" layoutX="3.0" layoutY="249.0" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+                <Label layoutX="3.0" layoutY="290.0" prefHeight="17.0" prefWidth="128.0" text="Повторить пароль" wrapText="true" AnchorPane.leftAnchor="0.0" />
+                <PasswordField fx:id="repeatPasswordField" layoutX="3.0" layoutY="311.0" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
+                <Label fx:id="invalidRepeatLabel" alignment="CENTER_RIGHT" layoutX="173.0" layoutY="290.0" prefHeight="18.0" prefWidth="132.0" text="*" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="0.0" />
+                <Label fx:id="invalidFirstnameLabel" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="98.0" prefHeight="18.0" prefWidth="225.0" text="*" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="0.0" />
+                <Label fx:id="invalidLastnameLabel" alignment="CENTER_RIGHT" layoutX="91.0" layoutY="163.0" prefHeight="18.0" prefWidth="219.0" text="*" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="0.0" />
+                <Label fx:id="invalidPasswordLabel" alignment="CENTER_RIGHT" layoutX="99.0" layoutY="228.0" prefHeight="18.0" prefWidth="204.0" text="*" wrapText="true" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="0.0" />
+                <Label fx:id="invalidLoginLabel" alignment="CENTER_RIGHT" layoutX="73.0" layoutY="33.0" prefHeight="18.0" prefWidth="237.0" text="*" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="73.0" AnchorPane.rightAnchor="0.0" />
+
+                <Rectangle fx:id="hintRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="75.0" layoutX="75.0" layoutY="241.0" stroke="#ff59c6" strokeType="INSIDE" visible="false" width="256.0" AnchorPane.rightAnchor="5.0" />
+                <Label fx:id="hintLabel" layoutX="64.0" layoutY="248.0" prefHeight="62.0" prefWidth="227.0" text="Надёжный пароль содержит минимум 8 символов, минимум 1 цифру и буквы разного регистра" visible="false" wrapText="true" />
+            </children>
+    </AnchorPane>
+   </center>
+    <bottom><AnchorPane maxWidth="-Infinity" prefHeight="90.0" prefWidth="310.0" BorderPane.alignment="CENTER">
+        <children>
+            <Button fx:id="registerButton" layoutX="250.0" layoutY="51.0" mnemonicParsing="false" onAction="#onRegister" prefHeight="27.0" prefWidth="150.0" text="Зарегистрироваться" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Button fx:id="backButton" layoutX="96.0" layoutY="54.0" mnemonicParsing="false" onAction="#onBack" prefHeight="27.0" prefWidth="125.0" text="Назад" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+            <Label fx:id="messageLabel" layoutY="14.0" prefHeight="17.0" prefWidth="308.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        </children>
+    </AnchorPane></bottom>
+   <right>
+      <AnchorPane prefHeight="359.0" prefWidth="95.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="14.0" layoutY="249.0" mnemonicParsing="false" onAction="#onHint" text="?" AnchorPane.leftAnchor="10.0" />
+         </children>
+      </AnchorPane>
+   </right>
+   <left>
+      <AnchorPane prefHeight="306.0" prefWidth="95.0" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
