@@ -1,13 +1,13 @@
-package sample;
+package sample.Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DatabaseConnection {
+public class DatabaseConnection{
     private Connection dbLink;
 
     public Connection getConnection(){
-        String dbName = "dbts"; //DataBase Tracking System
+        String dbName = "dbts"; //Database Bug Tracking System
         String dbUser = "root";
         String dbPassword = "root";
         String url = "jdbc:mysql://localhost:3306/" + dbName;

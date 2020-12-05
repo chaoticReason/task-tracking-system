@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class MyChecker {
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexPassword = "^(?=.*\\d)(?=.*[A-Z])[A-Za-z\\d]{8,}$";
+    private static final String regexPassword = "^(?=.*\\d)(?=.*[A-Z])[.@/!;:,$%^&*+=-_|()#`~'\"A-Za-z\\d]{8,}$";
 
     public static boolean notEmail(String email){
         Pattern pattern = Pattern.compile(regexEmail);

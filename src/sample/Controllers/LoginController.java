@@ -24,7 +24,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.util.Duration;
-import sample.DatabaseConnection;
+import sample.Database.DatabaseConnection;
 
 import util.MyChecker;
 

@@ -20,7 +20,7 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import sample.DatabaseConnection;
+import sample.Database.DatabaseConnection;
 import util.MyChecker;
 
 public class RegisterController implements Initializable {
