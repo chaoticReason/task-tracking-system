@@ -1,5 +1,7 @@
-package sample.Controllers;
+package client.controllers;
 
+import client.database.SendDatabase;
+import client.models.UsersTable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,14 +16,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import sample.Database.DatabaseConnection;
-import util.MyChecker;
+import utils.Alert;
+import utils.MyChecker;
 
 public class RegisterController implements Initializable {
 
@@ -108,7 +107,7 @@ public class RegisterController implements Initializable {
     public void onBack(){
         Stage stage = (Stage) backButton.getScene().getWindow();
         try{
-            Parent newRoot = FXMLLoader.load(getClass().getResource("../Views/login.fxml"));
+            Parent newRoot = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
             double w = 600;
             double h = 400;
             stage.setWidth(w);
@@ -134,13 +133,16 @@ public class RegisterController implements Initializable {
         loginField.focusedProperty().addListener((obs, oldVal, newVal) -> {
             isValid[0] = false;
             if (!newVal) {
-                if(loginField.getText().equals(""))invalidLoginLabel.setText("*");
-                else if(MyChecker.notEmail(loginField.getText())) invalidLoginLabel.setText("Не является почтой");
-                else if(validateEmail()) invalidLoginLabel.setText("Такой пользователь уже зарегистрирован");
-                else {
+                try{
+                    if(loginField.getText().equals("")) {
+                        invalidLoginLabel.setText("*");
+                        invalidLoginLabel.setText("Такой пользователь уже зарегистрирован");}
+                    else if(MyChecker.notEmail(loginField.getText())) invalidLoginLabel.setText("Не является почтой");
+                    else if(!SendDatabase.validateEmail(loginField.getText())) invalidLoginLabel.setText("Такой пользователь уже зарегистрирован");
+                    else {
                     invalidLoginLabel.setText("");
                     isValid[0] = true;
-                }
+                }} catch(Exception e){}
             }
         });
 
@@ -191,41 +193,17 @@ public class RegisterController implements Initializable {
         });
     }
 
-    private boolean validateEmail(){
-        DatabaseConnection toolDB = new DatabaseConnection();
-        Connection toDB = toolDB.getConnection();
-
-        String verifyLogin = "SELECT count(1) FROM users WHERE email = '" + loginField.getText() + "';";
-
-        try{
-            Statement statement = toDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
-
-            while(queryResult.next())
-                return queryResult.getInt(1) == 1;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        return false;
-    }
-
     private void addUser(){
-        DatabaseConnection toolDB = new DatabaseConnection();
-        Connection toDB = toolDB.getConnection();
-
-        String insertUser = "INSERT INTO users ( email, name, surname, password) VALUES\n"
-                + "  ( '"+ loginField.getText() +"', '"+ firstnameField.getText() +"', '"
-                + lastnameField.getText() +"', '"+ passwordField.getText() +"' );";
-
+        UsersTable newUser = new UsersTable(loginField.getText(), firstnameField.getText(),
+                lastnameField.getText(), passwordField.getText());
         try{
-            Statement statement = toDB.createStatement();
-            statement.executeUpdate(insertUser);
-            messageLabel.setText("Пользователь успешно добавлен!");
-
-        }catch(Exception e){
+            SendDatabase.updateDB("add", newUser);
+            Alert.alert("Вы успешно зарегистрировались", "");
+        }
+        catch(IllegalArgumentException e){
+            Alert.alert("Ошибка", e.getMessage());
+        }
+        catch(Exception e){
             e.printStackTrace();
             e.getCause();
         }

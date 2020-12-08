@@ -1,5 +1,6 @@
-package sample.Controllers;
+package client.controllers;
 
+import client.database.SendDatabase;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -16,12 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sample.Database.DatabaseConnection;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class PasswordController implements Initializable {
@@ -55,18 +52,20 @@ public class PasswordController implements Initializable {
         if(passwordField.getText().isBlank()){
             invalidLoginLabel.setText("Введите пароль");
         }
-        else if (!validatePassword()){
+        else if (!SendDatabase.validatePassword(LoginController.login, passwordField.getText())){
             invalidLoginLabel.setText("Неверный пароль");
         }
         else{
-            // INSERT HERE FURTHER ACTIONS
-            invalidLoginLabel.setText("Юху!");
+            if(LoginController.isAdmin()){
+                adminStage();
+            }
+            else invalidLoginLabel.setText("Юху!");
         }
     }
     public void onBack(){
         try{
             Stage stage = (Stage) backButton.getScene().getWindow();
-            Parent newRoot = FXMLLoader.load(getClass().getResource("../Views/login.fxml"));
+            Parent newRoot = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
             stage.setScene(new Scene(newRoot));
 
             //animation
@@ -83,27 +82,20 @@ public class PasswordController implements Initializable {
         }
     }
 
-    private boolean validatePassword(){
-        DatabaseConnection toolDB = new DatabaseConnection();
-        Connection toDB = toolDB.getConnection();
-
-        String verifyLogin = "SELECT count(1) FROM users WHERE password = '" + passwordField.getText() +
-                "' AND email = '" + login + "';";
-
+    private void adminStage(){
+        Stage stage = (Stage) invalidLoginLabel.getScene().getWindow();
         try{
-            Statement statement = toDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
-
-            while(queryResult.next()){
-                return queryResult.getInt(1) == 1;
-            }
-
-        }catch(Exception e){
+            Parent newRoot = FXMLLoader.load(getClass().getResource("../views/admin.fxml"));
+            double w = 900;
+            double h = 520;
+            stage.setWidth(w);
+            stage.setHeight(h);
+            stage.setScene(new Scene(newRoot));
+        }
+        catch(Exception e){
             e.printStackTrace();
             e.getCause();
         }
-
-        return false;
     }
 
 }

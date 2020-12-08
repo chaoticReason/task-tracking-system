@@ -4,6 +4,7 @@ module TaskTrackingApp {
     requires javafx.controls;
     requires java.sql;
     requires mysql.connector.java;
+    //requires javax.json;
 
-    opens sample;
+    opens client;
 }

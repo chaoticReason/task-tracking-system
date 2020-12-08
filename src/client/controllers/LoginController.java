@@ -1,5 +1,6 @@
-package sample.Controllers;
+package client.controllers;
 
+import client.database.SendDatabase;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,17 +20,16 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.util.Duration;
-import sample.Database.DatabaseConnection;
 
-import util.MyChecker;
+import utils.Alert;
+import utils.MyChecker;
 
 public class LoginController implements Initializable {
     public static String login = "";
+    private static boolean admin = false;
+    public static boolean isAdmin(){return admin;}
 
     @FXML
     private TextField loginField;
@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
     public void onRegister() {
         Stage stage = (Stage) registerHyperlink.getScene().getWindow();
         try{
-            Parent newRoot = FXMLLoader.load(getClass().getResource("../Views/register.fxml"));
+            Parent newRoot = FXMLLoader.load(getClass().getResource("../views/register.fxml"));
             double w = 500;
             double h = 510;
             stage.setWidth(w);
@@ -79,47 +79,39 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void onContinue(){
-        if(loginField.getText().isBlank()){
+    public void onContinue() {
+        String tempLogin = loginField.getText();
+        admin = false;
+
+        try {if(tempLogin.isBlank()){
             invalidLoginLabel.setText("Введите почту");
         }
-        else if(MyChecker.notEmail(loginField.getText())){
+        else if(MyChecker.notEmail(tempLogin)
+                && SendDatabase.validateAdmin(tempLogin)){
+            admin = true;
+            login = tempLogin;
+            enterPassword();
+        }
+        else if(MyChecker.notEmail(tempLogin)){
             invalidLoginLabel.setText("Не является почтой или содержит недопустимые символы. \nВводите в формате email@box.any с -._");
         }
-        else if (!validateEmail()){
+        else if (!SendDatabase.validateEmail(tempLogin)){
             invalidLoginLabel.setText("Почта не найдена. \nПроверьте правильность или зарегистрируйтесь");
         }
         else{
-            login = loginField.getText();
+            login = tempLogin;
             enterPassword();
+        }}
+        catch(IllegalArgumentException e){
+            Alert.alert("Ошибка", e.getMessage());
         }
-    }
-
-    private boolean validateEmail(){
-        DatabaseConnection toolDB = new DatabaseConnection();
-        Connection toDB = toolDB.getConnection();
-
-        String verifyLogin = "SELECT count(1) FROM users WHERE email = '" + loginField.getText() + "';";
-
-        try{
-            Statement statement = toDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
-
-            while(queryResult.next())
-                return queryResult.getInt(1) == 1;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            e.getCause();
-        }
-
-        return false;
+        catch(Exception ignored){}
     }
 
     private void enterPassword(){
         try{
             Stage stage = (Stage) continueButton.getScene().getWindow();
-            Parent newRoot = FXMLLoader.load(getClass().getResource("../Views/password.fxml"));
+            Parent newRoot = FXMLLoader.load(getClass().getResource("../views/password.fxml"));
             stage.setScene(new Scene(newRoot));
 
             //animation

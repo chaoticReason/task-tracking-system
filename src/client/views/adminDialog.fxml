@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="dlgVBox" minHeight="260.0" prefHeight="260.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.AdminDialogController">
+   <children>
+      <VBox VBox.vgrow="ALWAYS">
+         <children>
+            <GridPane fx:id="gridPane" prefWidth="525.0" vgap="7.0" VBox.vgrow="NEVER">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="295.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="470.0" minWidth="10.0" prefWidth="439.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" minHeight="40.0" valignment="CENTER" vgrow="NEVER" />
+                <RowConstraints fillHeight="false" minHeight="40.0" vgrow="NEVER" />
+                <RowConstraints fillHeight="false" minHeight="40.0" vgrow="NEVER" />
+              </rowConstraints>
+               <VBox.margin>
+                  <Insets left="30.0" right="30.0" top="20.0" />
+               </VBox.margin>
+            </GridPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+      <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: white;" VBox.vgrow="NEVER">
+         <children>
+            <Label fx:id="invalidLabel" alignment="CENTER" minWidth="30.0" prefHeight="38.0" prefWidth="463.0" text="Нажмите Enter, чтобы продолжить." textAlignment="CENTER" textFill="#757575" wrapText="true">
+               </Label>
+         </children>
+      </StackPane>
+   </children>
+</VBox>
